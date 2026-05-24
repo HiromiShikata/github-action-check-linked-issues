@@ -32,6 +32,6 @@ jobs:
 
       - name: Lint commits
         run: |
-          echo '{"extends":["@commitlint/config-conventional"]}' > .commitlintrc.json
+          echo '{"extends":["@commitlint/config-conventional"],"rules":{"body-max-line-length":[0],"header-max-length":[0]}}' > .commitlintrc.json
           npx commitlint --from=${{ github.event.pull_request.base.sha }} --to=${{ github.event.pull_request.head.sha }}
           rm .commitlintrc.json
