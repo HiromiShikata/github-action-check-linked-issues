@@ -12,4 +12,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - run: npx prettier --check "**/*.{md,yaml,yml,json}" --trailing-comma all --print-width 80 --single-quote true
+      - run: npm ci --ignore-scripts
+      - run: >-
+          ./node_modules/.bin/prettier --check "**/*.{md,yaml,yml,json}"
+          --trailing-comma all --print-width 80 --single-quote true
