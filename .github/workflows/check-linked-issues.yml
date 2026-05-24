@@ -6,7 +6,7 @@ on:
 jobs:
   check_pull_requests:
     runs-on: ubuntu-latest
-    name: Check
+    name: Check linked issues in pull requests
     permissions:
       issues: read
       pull-requests: write

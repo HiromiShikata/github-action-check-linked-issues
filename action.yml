@@ -3,8 +3,8 @@ name: 'Check linked issues'
 description: 'Check if pull requests have their corresponding issues.'
 
 branding:
-  icon: "check-square"
-  color: "green"
+  icon: 'check-square'
+  color: 'green'
 
 inputs:
   github-token:
@@ -12,25 +12,25 @@ inputs:
     required: false
     default: ${{ github.token }}
   exclude-branches:
-    description: "A comma-separated list of patterns to ignore source branches. (Any pattern supported by `minimatch`)"
+    description: 'A comma-separated list of patterns to ignore source branches. (Any pattern supported by `minimatch`)'
     required: false
-    default: ""
+    default: ''
   exclude-labels:
-    description: "A comma-separated list of labels to ignore."
+    description: 'A comma-separated list of labels to ignore.'
     required: false
-    default: ""
+    default: ''
   comment:
-    description: "A boolean value that allow the action to create a comment"
+    description: 'A boolean value that allow the action to create a comment'
     required: false
-    default: "true"
+    default: 'true'
   custom-body-comment:
-    description: "Custom body PR comment"
+    description: 'Custom body PR comment'
     required: false
-    default: "No linked issues found. Please add the corresponding issues in the pull request description. <br/> [Use GitHub automation to close the issue when a PR is merged](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)"
+    default: 'No linked issues found. Please add the corresponding issues in the pull request description. <br/> [Use GitHub automation to close the issue when a PR is merged](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)'
   loose-matching:
-    description: "A boolean value that allow PR to link issues on any branch"
+    description: 'A boolean value that allow PR to link issues on any branch'
     required: false
-    default: "false"
+    default: 'false'
 
 outputs:
   linked_issues_count:

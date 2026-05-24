@@ -1,12 +1,14 @@
 name: ci
-on: 
+on:
   push:
-   branches:
-    - master
+    branches:
+      - master
   pull_request:
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    env:
+      npm_config_ignore_scripts: 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -16,11 +18,11 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
-      - name: "Check dist/index.js does not contain eval('require') or eval(\"require\")"
+      - name: 'Check dist/index.js does not contain eval(''require'') or eval("require")'
         run: ./check-require.sh
 
-  automerge:
-    needs: build
+  create_and_enable_automerge:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write

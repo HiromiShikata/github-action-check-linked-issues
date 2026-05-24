@@ -1,0 +1,37 @@
+name: Lint Commit Messages
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+concurrency:
+  group: commitlint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install commitlint
+        run: npm install --save-dev @commitlint/{config-conventional,cli} --ignore-scripts
+
+      - name: Lint commits
+        run: |
+          echo '{"extends":["@commitlint/config-conventional"]}' > commitlint.config.json
+          npx commitlint --from=origin/main --to=HEAD
+          rm commitlint.config.json

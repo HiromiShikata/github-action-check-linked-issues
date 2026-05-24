@@ -4,28 +4,27 @@ GitHub action to check if pull requests have their corresponding issues linked, 
 
 ## Inputs
 
-| input                      | required | default | description |
-|----------------------------|----|---------------------|------------------------------------------------------------------|
-| `github-token`             | No | `${{github.token}}` | Your Github token, it's already available to your Github action. |
-| `exclude-branches`         | No | `''`                | A comma-separated list of patterns to ignore source branches. (Any pattern supported by `minimatch`). |
-| `exclude-labels`           | No | `''`                | A comma-separated list of labels to ignore. |
-| `comment`                  | No | `true`              | A boolean value that allow the action to create a comment. |
-| `custom-body-comment`      | No | "No linked issues found. Please add the corresponding issues in the pull request description. <br/> [Use GitHub automation to close the issue when a PR is merged](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)" | Custom body PR comment. |
-| `loose-matching`                  | No | `false`              | A boolean value indicating whether the action should verify linked issues inside a PR's description, merging onto any branch (including non-default branches like `main` or `master`). When enabled, this option supports both local issues (e.g., `#123`) and external ones (e.g., `https://github.com/org-name/repo/issues/123`). Associating a pull request with an issue requires the use of any of the [supported keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) in the pull request's description (e.g., `fixes #123`).|
+| input                 | required | default                                                                                                                                                                                                                                                                                                                     | description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| --------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `github-token`        | No       | `${{github.token}}`                                                                                                                                                                                                                                                                                                         | Your Github token, it's already available to your Github action.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `exclude-branches`    | No       | `''`                                                                                                                                                                                                                                                                                                                        | A comma-separated list of patterns to ignore source branches. (Any pattern supported by `minimatch`).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `exclude-labels`      | No       | `''`                                                                                                                                                                                                                                                                                                                        | A comma-separated list of labels to ignore.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `comment`             | No       | `true`                                                                                                                                                                                                                                                                                                                      | A boolean value that allow the action to create a comment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `custom-body-comment` | No       | "No linked issues found. Please add the corresponding issues in the pull request description. <br/> [Use GitHub automation to close the issue when a PR is merged](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)" | Custom body PR comment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `loose-matching`      | No       | `false`                                                                                                                                                                                                                                                                                                                     | A boolean value indicating whether the action should verify linked issues inside a PR's description, merging onto any branch (including non-default branches like `main` or `master`). When enabled, this option supports both local issues (e.g., `#123`) and external ones (e.g., `https://github.com/org-name/repo/issues/123`). Associating a pull request with an issue requires the use of any of the [supported keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) in the pull request's description (e.g., `fixes #123`). |
 
 ## Outputs
 
-| output                | description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| `linked_issues_count` | The total number of issues linked to your pull request.          |
+| output                | description                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `linked_issues_count` | The total number of issues linked to your pull request.                                                                  |
 | `issues`              | A stringified array containing the numbers of the linked issues, of the form ["some/repo#123", "another/repository#456"] |
-
 
 ## Standard Usage
 
 ### Triggers
 
-Configure a workflow to run a job on `pull_request` or  `pull_request_target` events.
+Configure a workflow to run a job on `pull_request` or `pull_request_target` events.
 
 If you enable the `comment` option (enabled by default) we recommend to listen on `pull_request_target` event.
 `pull_request_target` event has write permission to the target repository allowing external forks to create comments.
@@ -33,6 +32,7 @@ If you enable the `comment` option (enabled by default) we recommend to listen o
 ### Permissions
 
 This action needs the following permissions:
+
 - `issues: read`
 - `pull-requests: write`
 
@@ -52,23 +52,25 @@ jobs:
     runs-on: ubuntu-latest
     name: Check linked issues
     permissions:
-        issues: read
-        pull-requests: write
+      issues: read
+      pull-requests: write
     steps:
       - uses: nearform-actions/github-action-check-linked-issues@v1
         id: check-linked-issues
         with:
-          exclude-branches: "release/**, dependabot/**"
+          exclude-branches: 'release/**, dependabot/**'
       # OPTIONAL: Use the output from the `check-linked-issues` step
       - name: Get the output
         run: echo "How many linked issues? ${{ steps.check-linked-issues.outputs.linked_issues_count }}"
 ```
+
 When the action cannot find any linked issues it will fail explaining the reason.
 
 ## Comments
 
 ### Adding comments
-By default, when the job fails it adds a new comment on Pull Request, but you can also write your custom comment setting 
+
+By default, when the job fails it adds a new comment on Pull Request, but you can also write your custom comment setting
 `custom-body-comment`.
 
 ```yaml
@@ -87,8 +89,8 @@ jobs:
       - uses: nearform-actions/github-action-check-linked-issues@v1
         id: check-linked-issues
         with:
-          exclude-branches: "release/**, dependabot/**"
-          custom-body-comment: "Here is a custom comment!"
+          exclude-branches: 'release/**, dependabot/**'
+          custom-body-comment: 'Here is a custom comment!'
 
       # OPTIONAL: Use the output from the `check-linked-issues` step
       - name: Get the output
@@ -96,6 +98,7 @@ jobs:
 ```
 
 ### Disabling comments
+
 To disable comments in your Pull Request, you just need to set `comment` to false.
 
 ```yaml
@@ -114,7 +117,7 @@ jobs:
       - uses: nearform-actions/github-action-check-linked-issues@v1
         id: check-linked-issues
         with:
-          exclude-branches: "release/**, dependabot/**"
+          exclude-branches: 'release/**, dependabot/**'
           comment: false
 
       # OPTIONAL: Use the output from the `check-linked-issues` step
@@ -134,12 +137,11 @@ When you manually link up issues from the sidebar on the github.com UI, the work
 
 This is a GitHub limitation. This table shows what happens:
 
-| Linked from:    | Workflow triggered? | Query works? | Appears on Projects? |
-| --------------- | ------------------- | ------------ | -------------------- |
-| Sidebar UI      | ❌ | ✅ | ✅ |
-| Commit message  | ✅ | ❌ | ❌ |
-| PR description  | ✅ | ✅ | ✅ |
-
+| Linked from:   | Workflow triggered? | Query works? | Appears on Projects? |
+| -------------- | ------------------- | ------------ | -------------------- |
+| Sidebar UI     | ❌                  | ✅           | ✅                   |
+| Commit message | ✅                  | ❌           | ❌                   |
+| PR description | ✅                  | ✅           | ✅                   |
 
 Please **DO NOT** link issues manually from the sidebar, neither from commit messages.
 
