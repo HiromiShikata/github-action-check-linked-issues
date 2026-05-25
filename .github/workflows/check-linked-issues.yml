@@ -19,6 +19,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           exclude-branches: 'release/**, dependabot/**, i28799/**'
+          comment: 'false'
       # Use the output from the `check` step
       - name: Get the output
         run: echo "Has linked issues? ${{ steps.check.outputs.linked_issues_count }}"
