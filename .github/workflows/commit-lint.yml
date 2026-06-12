@@ -57,4 +57,4 @@ jobs:
           npm install --save-dev @commitlint/{config-conventional,cli}
       - name: Lint commits
         run: |
-          npx commitlint --from=origin/main --to=HEAD --config ./.github/workflows/configs/commitlint.config.js
+          npx commitlint --from=origin/main --to=HEAD --config ./.github/workflows/configs/commitlint.config.cjs

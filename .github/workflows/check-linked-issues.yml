@@ -18,7 +18,7 @@ jobs:
         id: check
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          exclude-branches: 'release/**, dependabot/**, i28799/**'
+          exclude-branches: 'release/**, dependabot/**, i28799/**, project-common/**, renovate/**'
           comment: 'false'
       # Use the output from the `check` step
       - name: Get the output
